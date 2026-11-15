@@ -4,10 +4,24 @@ import (
 	"fmt"
 )
 
-func main() {
-	fmt.Println("hello, world!")
+// TODO: move it to config
+const (
+	row = 15
+	col = 30
+)
 
-	// TODO: add playground
+func main() {
+	for i := 0; i < row; i++ {
+		for j := 0; j < col; j++ {
+			if i == 0 || i == row-1 || j == 0 || j == col-1 {
+				fmt.Print("#")
+			} else {
+				fmt.Print(" ")
+			}
+		}
+
+		fmt.Println()
+	}
 
 	// TODO: add snake and move it, add render and fps
 	// ANSI Escape Sequences clean terminal, color and move cursor.

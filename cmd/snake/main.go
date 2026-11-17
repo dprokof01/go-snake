@@ -5,18 +5,9 @@ import (
 	"log"
 	"os"
 
+	"github.com/dprokof01/go-snake/internal/config"
 	"gopkg.in/yaml.v3"
 )
-
-// TODO: move it to internal/config package
-type Config struct {
-	Size Size `yaml:"size"`
-}
-
-type Size struct {
-	Row int `yaml:"row"`
-	Col int `yaml:"col"`
-}
 
 func main() {
 	// TODO: move it to func LoadConfig
@@ -25,7 +16,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	cfg := &Config{}
+	cfg := &config.Config{}
 	if err = yaml.Unmarshal(data, cfg); err != nil {
 		fmt.Printf("err parse: %d", err)
 	}

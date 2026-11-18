@@ -15,10 +15,10 @@ type Point struct {
 }
 
 // TODO: extract it into a separate package internal/snake m.b?
-func NewSnake(cfg *config.Config) Point {
+func NewSnake(row, col int) Point {
 	return Point{
-		X: cfg.Size.Col / 2,
-		Y: cfg.Size.Row / 2,
+		X: col / 2,
+		Y: row / 2,
 	}
 }
 
@@ -28,24 +28,22 @@ func main() {
 		log.Fatal(err)
 	}
 
-	snake := NewSnake(cfg)
+	row, col := cfg.Size.Row, cfg.Size.Col
+	snake := NewSnake(row, col)
 
-	var lose bool
-
-	for !lose {
+	for {
 		snake.X++
 
-		fmt.Println("\033[H")
-
+		fmt.Print("\033[H\033[2J")
 		switch {
-		case cfg.Size.Col-1 == snake.X || cfg.Size.Row-1 == snake.Y || snake.X == 0 || snake.Y == 0:
-			lose = true
+		case col-1 <= snake.X || row-1 <= snake.Y || snake.X <= 0 || snake.Y <= 0:
 			fmt.Println("You lose!")
+			return
 		default:
-			Render(cfg, snake)
+			Render(row, col, snake)
+			time.Sleep(200 * time.Millisecond)
 		}
 
-		time.Sleep(200 * time.Millisecond)
 	}
 
 	// TODO: add Raw Terminal Mode for handling inputs without enter
@@ -59,8 +57,7 @@ func main() {
 
 }
 
-func Render(cfg *config.Config, snake Point) {
-	row, col := cfg.Size.Row, cfg.Size.Col
+func Render(row, col int, snake Point) {
 	for i := 0; i < row; i++ {
 		for j := 0; j < col; j++ {
 			switch {

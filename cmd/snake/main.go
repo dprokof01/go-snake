@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/dprokof01/go-snake/internal/config"
 )
@@ -25,24 +26,24 @@ func main() {
 		log.Fatal(err)
 	}
 
-	row, col := cfg.Size.Row, cfg.Size.Col
 	snake := NewSnake(cfg)
 
-	for i := 0; i < row; i++ {
-		for j := 0; j < col; j++ {
-			switch {
-			case i == 0 || i == row-1 || j == 0 || j == col-1:
-				fmt.Print("#")
-			// TODO: move snake, add render and fps
-			// ANSI Escape Sequences clean terminal, color and move cursor.
-			case i == snake.Y && j == snake.X:
-				fmt.Print("@")
-			default:
-				fmt.Print(" ")
-			}
+	var lose bool
+
+	for !lose {
+		snake.X++
+
+		fmt.Println("\033[H")
+
+		switch {
+		case cfg.Size.Col-1 == snake.X || cfg.Size.Row-1 == snake.Y || snake.X == 0 || snake.Y == 0:
+			lose = true
+			fmt.Println("You lose!")
+		default:
+			Render(cfg, snake)
 		}
 
-		fmt.Println()
+		time.Sleep(200 * time.Millisecond)
 	}
 
 	// TODO: add Raw Terminal Mode for handling inputs without enter
@@ -54,4 +55,22 @@ func main() {
 
 	// TODO: control the speed of the game with time.Ticker
 
+}
+
+func Render(cfg *config.Config, snake Point) {
+	row, col := cfg.Size.Row, cfg.Size.Col
+	for i := 0; i < row; i++ {
+		for j := 0; j < col; j++ {
+			switch {
+			case i == 0 || i == row-1 || j == 0 || j == col-1:
+				fmt.Print("#")
+			case i == snake.Y && j == snake.X:
+				fmt.Print("@")
+			default:
+				fmt.Print(" ")
+			}
+		}
+
+		fmt.Println()
+	}
 }

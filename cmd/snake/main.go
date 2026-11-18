@@ -54,8 +54,6 @@ func main() {
 	// TODO: add Raw Terminal Mode for handling inputs without enter
 	// use termios
 
-	// TODO: add game loop
-
 	// TODO: async handling inputs with Goroutines and channels
 
 	// TODO: control the speed of the game with time.Ticker

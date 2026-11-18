@@ -13,7 +13,14 @@ func Load(path string) (*Config, error) {
 		return nil, fmt.Errorf("read config: %w", err)
 	}
 
-	cfg := &Config{}
+	// default value
+	cfg := &Config{
+		Size{
+			Col: 30,
+			Row: 15,
+		},
+	}
+
 	if err = yaml.Unmarshal(data, cfg); err != nil {
 		return nil, fmt.Errorf("parse config: %w", err)
 	}

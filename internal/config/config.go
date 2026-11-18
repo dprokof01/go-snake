@@ -5,6 +5,6 @@ type Config struct {
 }
 
 type Size struct {
-	Row int `yaml:"row"`
 	Col int `yaml:"col"`
+	Row int `yaml:"row"`
 }

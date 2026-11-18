@@ -30,24 +30,40 @@ func main() {
 
 	row, col := cfg.Size.Row, cfg.Size.Col
 	snake := NewSnake(row, col)
+	dir := Point{
+		X: 1,
+		Y: 0,
+	}
 
 	for {
-		dir := Point{
-			X: 1,
-			Y: 0,
+
+		switch {
+		case dir.X == 1 && snake.X >= col-2:
+			dir.X = 0
+			dir.Y = 1
+		case dir.Y == 1 && snake.Y >= row-2:
+			dir.X = -1
+			dir.Y = 0
+		case dir.X == -1 && snake.X <= 1:
+			dir.X = 0
+			dir.Y = -1
+		case dir.Y == -1 && snake.Y <= 1:
+			dir.X = 1
+			dir.Y = 0
 		}
+
 		snake.X += dir.X
 		snake.Y += dir.Y
 
 		fmt.Print("\033[H\033[2J")
-		switch {
-		case col-1 <= snake.X || row-1 <= snake.Y || snake.X <= 0 || snake.Y <= 0:
+
+		if col-1 <= snake.X || row-1 <= snake.Y || snake.X <= 0 || snake.Y <= 0 {
 			fmt.Println("You lose!")
 			return
-		default:
-			Render(row, col, snake)
-			time.Sleep(200 * time.Millisecond)
 		}
+
+		Render(row, col, snake)
+		time.Sleep(200 * time.Millisecond)
 
 	}
 

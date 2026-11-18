@@ -32,7 +32,12 @@ func main() {
 	snake := NewSnake(row, col)
 
 	for {
-		snake.X++
+		dir := Point{
+			X: 1,
+			Y: 0,
+		}
+		snake.X += dir.X
+		snake.Y += dir.Y
 
 		fmt.Print("\033[H\033[2J")
 		switch {

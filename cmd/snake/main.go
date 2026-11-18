@@ -16,8 +16,10 @@ type Point struct {
 
 // TODO: extract it into a separate package internal/snake m.b?
 func NewSnake(cfg *config.Config) Point {
-	snake := Point{cfg.Size.Col / 2, cfg.Size.Row / 2}
-	return snake
+	return Point{
+		X: cfg.Size.Col / 2,
+		Y: cfg.Size.Row / 2,
+	}
 }
 
 func main() {

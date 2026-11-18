@@ -3,22 +3,14 @@ package main
 import (
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/dprokof01/go-snake/internal/config"
-	"gopkg.in/yaml.v3"
 )
 
 func main() {
-	// TODO: move it to func LoadConfig
-	data, err := os.ReadFile("config/config.yaml")
+	cfg, err := config.Load("config/config.yaml")
 	if err != nil {
 		log.Fatal(err)
-	}
-
-	cfg := &config.Config{}
-	if err = yaml.Unmarshal(data, cfg); err != nil {
-		fmt.Printf("err parse: %d", err)
 	}
 
 	var row, col = cfg.Size.Row, cfg.Size.Col
